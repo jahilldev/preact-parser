@@ -2,12 +2,25 @@ import { h, Fragment } from 'preact';
 
 /* -----------------------------------
  *
+ * Variables
+ *
+ * -------------------------------- */
+
+const htmlRegex = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][-.:0-9_a-zA-Z]*)((?:\s+[^>]*?(?:(?:'[^']*')|(?:"[^"]*"))?)*)\s*(\/?)>/g;
+
+/* -----------------------------------
+ *
  * Value
  *
  * -------------------------------- */
 
 function jsxValue(html: string) {
+  const preRender = typeof window === 'undefined';
   const value = `<!DOCTYPE html>\n<html><body>${html}</body></html>`;
+
+  if (preRender) {
+    return h(Fragment, { dangerouslySetInnerHTML: { __html: html } }, {});
+  }
 
   let nodes: Document;
 
