@@ -1,0 +1,53 @@
+{
+  "name": "preactement",
+  "version": "1.6.5",
+  "repository": "git@github.com:jhukdev/preactement.git",
+  "author": "James Hill <contact@jameshill.dev>",
+  "license": "MIT",
+  "private": false,
+  "main": "./dist/value.es5.js",
+  "types": "./dist/value.d.ts",
+  "keywords": [
+    "preact",
+    "dangerouslySetInnerHTML",
+    "no danger",
+    "render",
+    "html",
+    "string",
+    "jsx"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "run-s clean watch",
+    "build": "webpack --mode=production",
+    "watch": "webpack --watch",
+    "clean": "rimraf ./dist",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.10.8",
+    "@types/jest": "^26.0.24",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-preact-pure": "^3.1.0",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.2.0",
+    "jest": "^26.6.3",
+    "npm-run-all": "^4.1.5",
+    "preact": "^10.5.13",
+    "preact-markup": "^2.1.1",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.5.5",
+    "ts-loader": "^8.1.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4",
+    "webpack": "^5.33.2",
+    "webpack-cli": "^4.6.0",
+    "webpack-node-externals": "^2.5.2"
+  },
+  "peerDependencies": {
+    "preact": ">=10"
+  }
+}
