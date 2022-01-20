@@ -70,14 +70,14 @@ function parseHtml(html: string) {
         noNestedTagIndex = nodeStack.length;
       }
 
-      const tagEndPos = htmlRegex.lastIndex;
-      const tagStartPos = tagEndPos - matchLength;
+      const tagEnd = htmlRegex.lastIndex;
+      const tagStart = tagEnd - matchLength;
 
       const openElement = createElement({
         tagName,
         nodeType: 1,
         attributes: tagAttributes,
-        tagRange: createRange(tagStartPos, tagEndPos),
+        tagRange: createRange(tagStart, tagEnd),
       });
 
       currentParent.childNodes.push(openElement);
@@ -91,10 +91,10 @@ function parseHtml(html: string) {
         const closeIndex = tagName
           ? html.toLocaleLowerCase().indexOf(closeMarkup, htmlRegex.lastIndex)
           : html.indexOf(closeMarkup, htmlRegex.lastIndex);
-        const textEndPos = closeIndex === -1 ? dataEndPos : closeIndex;
+        const textEnd = closeIndex === -1 ? dataEndPos : closeIndex;
 
         if (isIgnored(tagName)) {
-          const text = html.substring(tagEndPos, textEndPos).replace(/^\s+|\s+$/g, '');
+          const text = html.substring(tagEnd, textEnd).replace(/^\s+|\s+$/g, '');
 
           if (text.length > 0 && /\S/.test(text)) {
             currentParent.childNodes.push(createText(text, createRange(tagStart, tagEnd)));
@@ -164,7 +164,7 @@ function parseAttributes(attributes: string) {
   const result = [];
 
   for (let match; (match = attrRegex.exec(attributes)); ) {
-    const [, key, value] = match;
+    const { 1: key, 3: value } = match;
     const isQuoted = value[0] === `'` || value[0] === `"`;
 
     const attribute = {
