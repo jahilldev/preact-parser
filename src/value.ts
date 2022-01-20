@@ -30,9 +30,7 @@ function html(htmlValue: string) {
     return void 0;
   }
 
-  const result = convertToVDom(nodes.body);
-
-  return result;
+  return convertToVDom(nodes.body);
 }
 
 /* -----------------------------------
