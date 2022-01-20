@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { mount } from 'enzyme';
-import { jsxValue } from '../src/value';
+import { html } from '../src/value';
 
 /* -----------------------------------
  *
@@ -11,7 +11,7 @@ import { jsxValue } from '../src/value';
 const testCaption = 'testCaption';
 const testText = 'Lorem ipsum dolor sit amet';
 const testHtml = `
-  <article id="first" class="container" data-article="1">
+  <article title="Article" id="first" class="container" data-article="1">
     <style>
       .image { background: orange; }
     </style>
@@ -22,8 +22,11 @@ const testHtml = `
     <p id="text" class="text grey">
       <span>Intro:</span> ${testText}
       <br />
-      <a href="/">Go back</a>
+      <a href="/">Go <em>back</em></a>
     </p>
+    <button class="button">
+      <span>Click</span> me
+    </button>
     <script type="text/json">
       {"productName": "testProduct", "productPrice": "10.00"}
     </script>
@@ -36,7 +39,7 @@ const testHtml = `
  *
  * -------------------------------- */
 
-describe('jsxValue()', () => {
+describe('html()', () => {
   describe('when run in the browser', () => {
     //
   });
@@ -53,7 +56,7 @@ describe('jsxValue()', () => {
     });
 
     it('returns a valid VDom tree from an HTML string', () => {
-      const result = jsxValue(testHtml);
+      const result = html(testHtml);
 
       console.log('RESULT', result);
 

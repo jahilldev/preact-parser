@@ -1,24 +1,25 @@
 import { h, Fragment } from 'preact';
+import { IElement } from './model';
 import { parseHtml } from './parse';
 
 /* -----------------------------------
  *
- * Value
+ * Html
  *
  * -------------------------------- */
 
-function jsxValue(html: string) {
+function html(htmlValue: string) {
   const preRender = typeof window === 'undefined';
-  const value = `<!DOCTYPE html>\n<html><body>${html}</body></html>`;
+  const docValue = `<!DOCTYPE html>\n<html><body>${htmlValue}</body></html>`;
 
   if (preRender) {
-    return parseHtml(html);
+    return parseHtml(htmlValue);
   }
 
   let nodes: Document;
 
   try {
-    nodes = new DOMParser().parseFromString(value, 'text/html');
+    nodes = new DOMParser().parseFromString(docValue, 'text/html');
   } catch {
     // no-op
   }
@@ -92,4 +93,4 @@ function getAttributeObject(attributes: NamedNodeMap): object {
  *
  * -------------------------------- */
 
-export { jsxValue };
+export { html };
