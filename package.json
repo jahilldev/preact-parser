@@ -5,10 +5,11 @@
   "author": "James Hill <contact@jameshill.dev>",
   "license": "MIT",
   "private": false,
-  "main": "./dist/value.es5.js",
-  "types": "./dist/value.d.ts",
+  "main": "./dist/index.es5.js",
+  "types": "./dist/index.d.ts",
   "keywords": [
     "preact",
+    "parser",
     "dangerouslySetInnerHTML",
     "no danger",
     "render",

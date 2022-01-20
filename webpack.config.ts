@@ -21,7 +21,7 @@ const outputFiles = [
 
 const defaultConfig = {
   entry: {
-    value: path.join(__dirname, './src/value.ts'),
+    index: path.join(__dirname, './src/index.ts'),
   },
   externals: [nodeExternals()],
   context: path.join(__dirname, './src'),
