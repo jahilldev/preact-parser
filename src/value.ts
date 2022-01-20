@@ -1,12 +1,5 @@
 import { h, Fragment } from 'preact';
-
-/* -----------------------------------
- *
- * Variables
- *
- * -------------------------------- */
-
-const htmlRegex = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][-.:0-9_a-zA-Z]*)((?:\s+[^>]*?(?:(?:'[^']*')|(?:"[^"]*"))?)*)\s*(\/?)>/g;
+import { parseHtml } from './parse';
 
 /* -----------------------------------
  *
@@ -19,7 +12,7 @@ function jsxValue(html: string) {
   const value = `<!DOCTYPE html>\n<html><body>${html}</body></html>`;
 
   if (preRender) {
-    return h(Fragment, { dangerouslySetInnerHTML: { __html: html } }, {});
+    return parseHtml(html);
   }
 
   let nodes: Document;
