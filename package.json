@@ -1,7 +1,7 @@
 {
-  "name": "preact-nodanger",
+  "name": "preact-parser",
   "version": "1.0.0",
-  "repository": "git@github.com:jhukdev/preact-nodanger.git",
+  "repository": "git@github.com:jhukdev/preact-parser.git",
   "author": "James Hill <contact@jameshill.dev>",
   "license": "MIT",
   "private": false,
