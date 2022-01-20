@@ -9,14 +9,18 @@ import { html } from '../src/value';
  * -------------------------------- */
 
 const testCaption = 'testCaption';
+const testTitle = 'testTitle';
 const testText = 'Lorem ipsum dolor sit amet';
+const testImage = 'https://via.placeholder.com/150';
+
 const testHtml = `
   <article title="Article" id="first" class="container" data-article="1">
     <style data-theme>
       .image { background: orange; }
     </style>
+    <h2>${testTitle}</h2>
     <figure class="image" title="Image">
-      <img src="https://via.placeholder.com/150" alt="Placeholder" />
+      <img src="${testImage}" alt="Placeholder" />
       <figcaption>${testCaption}</figcaption>
     </figure>
     <p id="text" class="text grey">
@@ -34,6 +38,16 @@ const testHtml = `
     </script>
   </article>
 `;
+
+/* -----------------------------------
+ *
+ * Component
+ *
+ * -------------------------------- */
+
+function Content() {
+  return <main>{html(testHtml)}</main>;
+}
 
 /* -----------------------------------
  *
@@ -62,6 +76,15 @@ describe('html()', () => {
       const instance = mount(result as any);
 
       expect(instance.find('article').exists()).toEqual(true);
+      expect(instance.find('h2').text()).toEqual(testTitle);
+      expect(instance.find('img').prop('src')).toEqual(testImage);
+    });
+
+    it('can be used within JSX and Preact components', () => {
+      const instance = mount(<Content />);
+
+      expect(instance.find('article').exists()).toEqual(true);
+      expect(instance.find('h2').text()).toEqual(testTitle);
     });
   });
 });
