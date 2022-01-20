@@ -19,7 +19,7 @@ import {
  * -------------------------------- */
 
 function parseHtml(html: string) {
-  let currentParent = createElement();
+  let currentParent = createElement({ tagName: 'body', tagRange: [0, html.length] });
   const nodeStack = [currentParent];
   let lastTextPos = -1;
   let match: RegExpExecArray;
@@ -27,7 +27,8 @@ function parseHtml(html: string) {
   const dataEndPos = html.length;
 
   while ((match = htmlRegex.exec(html))) {
-    let [matchText, leadingSlash, tagName, attributes, closingSlash] = match;
+    const { 0: matchText, 3: attributes, 4: closingSlash } = match;
+    let { 1: leadingSlash, 2: tagName } = match;
 
     tagName = tagName.toLowerCase();
 

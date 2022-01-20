@@ -7,7 +7,7 @@
 interface IElement {
   nodeName?: string;
   nodeType?: number;
-  tagName?: string;
+  tagName: string;
   tagRange: number[];
   attributes?: object;
   textContent?: string;
@@ -108,7 +108,9 @@ const closedByClosing = {
  *
  * -------------------------------- */
 
-function createElement(element?: IElement): IElement {
+function createElement(element: IElement): IElement {
+  const { nodeName = element.tagName } = element;
+
   let model = {
     nodeName: 'BODY',
     nodeType: 1,
@@ -119,8 +121,6 @@ function createElement(element?: IElement): IElement {
   };
 
   if (element) {
-    const { nodeName = element.tagName } = element;
-
     model = {
       ...model,
       ...element,
