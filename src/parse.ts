@@ -49,7 +49,6 @@ function parseHtml(html: string) {
 
     lastTextPos = htmlRegex.lastIndex;
 
-    // handle opening tag
     if (!leadingSlash) {
       const tagAttributes = parseAttributes(attributes);
       const parentTagName = currentParent.tagName;
@@ -61,7 +60,6 @@ function parseHtml(html: string) {
         }
       }
 
-      // Prevent nested A tags by terminating the last A and starting a new one : see issue #144
       if (tagName === 'a') {
         if (noNestedTagIndex !== undefined) {
           nodeStack.splice(noNestedTagIndex);
@@ -87,7 +85,6 @@ function parseHtml(html: string) {
       nodeStack.push(currentParent);
 
       if (isBlockText(tagName)) {
-        // Find closing tag
         const closeMarkup = `</${tagName}>`;
         const closeIndex = tagName
           ? html.toLocaleLowerCase().indexOf(closeMarkup, htmlRegex.lastIndex)
@@ -106,13 +103,11 @@ function parseHtml(html: string) {
           lastTextPos = htmlRegex.lastIndex = html.length + 1;
         } else {
           lastTextPos = htmlRegex.lastIndex = closeIndex + closeMarkup.length;
-          // Cause to be treated as self-closing, because no close found
           leadingSlash = '/';
         }
       }
     }
 
-    // handle closing tag
     if (leadingSlash || closingSlash || isSelfClosing) {
       while (true) {
         if (tagName === 'a') {
@@ -120,11 +115,7 @@ function parseHtml(html: string) {
         }
 
         if (currentParent.tagName === tagName) {
-          // Update range end for closed tag
-          (<[number, number]>currentParent.tagRange)[1] = createRange(
-            -1,
-            Math.max(lastTextPos, tagEnd)
-          )[1];
+          currentParent.tagRange[1] = createRange(-1, Math.max(lastTextPos, tagEnd))[1];
 
           nodeStack.pop();
           currentParent = nodeStack[nodeStack.length - 1];
@@ -133,7 +124,6 @@ function parseHtml(html: string) {
         } else {
           const parentTagName = currentParent.tagName;
 
-          // Trying to close current tag, and move on
           if (closedByClosing[parentTagName]) {
             if (closedByClosing[parentTagName][tagName]) {
               nodeStack.pop();
@@ -143,7 +133,6 @@ function parseHtml(html: string) {
             }
           }
 
-          // Use aggressive strategy to handle unmatching markups.
           break;
         }
       }

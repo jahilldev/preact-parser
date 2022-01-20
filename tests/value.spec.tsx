@@ -72,6 +72,13 @@ describe('html()', () => {
       expect(instance.find('article').exists()).toEqual(true);
       expect(instance.find('h2').text()).toEqual(testTitle);
     });
+
+    it('can accept a non-html string value', () => {
+      const result = html(testText) as JSX.Element;
+      const instance = mount(result);
+
+      expect(instance.text()).toEqual(testText);
+    });
   });
 
   describe('when run on the server', () => {
