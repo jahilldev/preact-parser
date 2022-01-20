@@ -68,25 +68,38 @@ const blockTextElements = ['script', 'noscript', 'style', 'pre'];
 
 /* -----------------------------------
  *
+ * Opened By
+ *
+ * -------------------------------- */
+
+const closedByOpening = {
+  li: { li: true },
+  p: { p: true, div: true },
+  b: { div: true },
+  td: { td: true, th: true },
+  th: { td: true, th: true },
+  h1: { h1: true },
+  h2: { h2: true },
+  h3: { h3: true },
+  h4: { h4: true },
+  h5: { h5: true },
+  h6: { h6: true },
+};
+
+/* -----------------------------------
+ *
  * Closed By
  *
  * -------------------------------- */
 
-const elementsClosedBy = {
-  li: { ul: true, ol: true, UL: true, OL: true },
-  LI: { ul: true, ol: true, UL: true, OL: true },
-  a: { div: true, DIV: true },
-  A: { div: true, DIV: true },
-  b: { div: true, DIV: true },
-  B: { div: true, DIV: true },
-  i: { div: true, DIV: true },
-  I: { div: true, DIV: true },
-  p: { div: true, DIV: true },
-  P: { div: true, DIV: true },
-  td: { tr: true, table: true, TR: true, TABLE: true },
-  TD: { tr: true, table: true, TR: true, TABLE: true },
-  th: { tr: true, table: true, TR: true, TABLE: true },
-  TH: { tr: true, table: true, TR: true, TABLE: true },
+const closedByClosing = {
+  li: { ul: true, ol: true },
+  a: { div: true },
+  b: { div: true },
+  i: { div: true },
+  p: { div: true },
+  td: { tr: true, table: true },
+  th: { tr: true, table: true },
 };
 
 /* -----------------------------------
@@ -177,7 +190,8 @@ export {
   attrRegex,
   selfClosingTags,
   blockTextElements,
-  elementsClosedBy,
+  closedByOpening,
+  closedByClosing,
   frameflag,
   createElement,
   createText,

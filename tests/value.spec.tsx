@@ -11,16 +11,18 @@ import { jsxValue } from '../src/value';
 const testCaption = 'testCaption';
 const testText = 'Lorem ipsum dolor sit amet';
 const testHtml = `
-  <article class="container">
+  <article id="first" class="container" data-article="1">
     <style>
       .image { background: orange; }
     </style>
-    <figure class="image">
+    <figure class="image" title="Image">
       <img src="https://via.placeholder.com/150" alt="Placeholder" />
       <figcaption>${testCaption}</figcaption>
     </figure>
     <p id="text" class="text grey">
       <span>Intro:</span> ${testText}
+      <br />
+      <a href="/">Go back</a>
     </p>
     <script type="text/json">
       {"productName": "testProduct", "productPrice": "10.00"}

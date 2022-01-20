@@ -2,7 +2,8 @@ import {
   htmlRegex,
   attrRegex,
   selfClosingTags,
-  elementsClosedBy,
+  closedByOpening,
+  closedByClosing,
   frameflag,
   createElement,
   createText,
@@ -17,15 +18,13 @@ import {
  *
  * -------------------------------- */
 
-function parseHtml(value: string) {
+function parseHtml(html: string) {
   let currentParent = createElement();
   const nodeStack = [currentParent];
   let lastTextPos = -1;
   let match: RegExpExecArray;
   let noNestedTagIndex: undefined | number = undefined;
-  const html = `<${frameflag}>${value}</${frameflag}>`;
-
-  const dataEndPos = html.length - (frameflag.length + 2);
+  const dataEndPos = html.length;
 
   while ((match = htmlRegex.exec(html))) {
     let [matchText, leadingSlash, tagName, attributes, closingSlash] = match;
@@ -54,9 +53,11 @@ function parseHtml(value: string) {
       const tagAttributes = parseAttributes(attributes);
       const parentTagName = currentParent.tagName;
 
-      if (!closingSlash && isSelfClosing) {
-        nodeStack.pop();
-        currentParent = nodeStack[nodeStack.length - 1];
+      if (!closingSlash && closedByOpening[parentTagName]) {
+        if (closedByOpening[parentTagName][tagName]) {
+          nodeStack.pop();
+          currentParent = nodeStack[nodeStack.length - 1];
+        }
       }
 
       // Prevent nested A tags by terminating the last A and starting a new one : see issue #144
@@ -93,7 +94,7 @@ function parseHtml(value: string) {
         const textEndPos = closeIndex === -1 ? dataEndPos : closeIndex;
 
         if (isIgnored(tagName)) {
-          const text = html.substring(tagEndPos, textEndPos);
+          const text = html.substring(tagEndPos, textEndPos).replace(/^\s+|\s+$/g, '');
 
           if (text.length > 0 && /\S/.test(text)) {
             currentParent.childNodes.push(createText(text, createRange(tagStart, tagEnd)));
@@ -132,8 +133,8 @@ function parseHtml(value: string) {
           const parentTagName = currentParent.tagName;
 
           // Trying to close current tag, and move on
-          if (elementsClosedBy[parentTagName]) {
-            if (elementsClosedBy[parentTagName][tagName]) {
+          if (closedByClosing[parentTagName]) {
+            if (closedByClosing[parentTagName][tagName]) {
               nodeStack.pop();
               currentParent = nodeStack[nodeStack.length - 1];
 
@@ -165,6 +166,8 @@ function parseAttributes(attributes: string) {
   for (let match; (match = attrRegex.exec(attributes)); ) {
     const [key, value] = match;
     const isQuoted = value[0] === `'` || value[0] === `"`;
+
+    console.log('ATTR', key, value, isQuoted);
 
     result[key.toLowerCase()] = isQuoted ? value.slice(1, value.length - 1) : value;
   }
