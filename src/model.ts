@@ -9,7 +9,7 @@ interface IElement {
   nodeType?: number;
   tagName: string;
   tagRange: number[];
-  attributes?: object;
+  attributes?: any[];
   textContent?: string;
   childNodes?: IElement[];
 }
@@ -116,7 +116,7 @@ function createElement(element: IElement): IElement {
     nodeType: 1,
     tagName: 'body',
     tagRange: [],
-    attributes: {},
+    attributes: [],
     childNodes: [],
   };
 

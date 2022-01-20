@@ -59,10 +59,9 @@ describe('html()', () => {
 
     it('returns a valid VDom tree from an HTML string', () => {
       const result = html(testHtml);
+      const instance = mount(result as any);
 
-      console.log('RESULT', result);
-
-      expect(true).toBe(true);
+      expect(instance.find('article').exists()).toEqual(true);
     });
   });
 });

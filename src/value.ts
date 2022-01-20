@@ -13,7 +13,9 @@ function html(htmlValue: string) {
   const docValue = `<!DOCTYPE html>\n<html><body>${htmlValue}</body></html>`;
 
   if (preRender) {
-    return parseHtml(htmlValue);
+    const [parsed] = parseHtml(htmlValue);
+
+    return convertToVDom(parsed);
   }
 
   let nodes: Document;
@@ -39,9 +41,9 @@ function html(htmlValue: string) {
  *
  * -------------------------------- */
 
-function convertToVDom(node: Element) {
+function convertToVDom(node: Element | IElement): preact.VNode<any> {
   if (node.nodeType === 3) {
-    return node.textContent?.trim() || '';
+    return node.textContent?.trim() || ('' as any);
   }
 
   if (node.nodeType !== 1) {
@@ -49,10 +51,10 @@ function convertToVDom(node: Element) {
   }
 
   const nodeName = String(node.nodeName).toLowerCase();
-  const childNodes = Array.from(node.childNodes);
+  const childNodes = Array.from(node.childNodes as any);
 
   const children = () => childNodes.map((child) => convertToVDom.call(this, child));
-  const props = getAttributeObject(node.attributes);
+  const props = getAttributeObject(node.attributes as any);
 
   if (nodeName === 'script') {
     return null;

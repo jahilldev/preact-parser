@@ -150,8 +150,6 @@ function parseHtml(html: string) {
     }
   }
 
-  console.log('TREE', JSON.stringify(nodeStack));
-
   return nodeStack;
 }
 
