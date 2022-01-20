@@ -32,7 +32,7 @@ enum NodeType {
  * -------------------------------- */
 
 const htmlRegex = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][-.:0-9_a-zA-Z]*)((?:\s+[^>]*?(?:(?:'[^']*')|(?:"[^"]*"))?)*)\s*(\/?)>/g;
-const attrRegex = /(?:^|\s)(id|class)\s*=\s*((?:'[^']*')|(?:"[^"]*")|\S+)/gi;
+const attrRegex = /(\S+)\s*=\s*(\"?)([^"]*)(\2|\s|$)/gi;
 const frameflag = 'documentfragmentcontainer';
 
 /* -----------------------------------

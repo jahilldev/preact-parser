@@ -161,15 +161,18 @@ function parseHtml(html: string) {
  * -------------------------------- */
 
 function parseAttributes(attributes: string) {
-  const result = {};
+  const result = [];
 
   for (let match; (match = attrRegex.exec(attributes)); ) {
-    const [key, value] = match;
+    const [, key, value] = match;
     const isQuoted = value[0] === `'` || value[0] === `"`;
 
-    console.log('ATTR', key, value, isQuoted);
+    const attribute = {
+      name: key.toLowerCase(),
+      value: isQuoted ? value.slice(1, value.length - 1) : value,
+    };
 
-    result[key.toLowerCase()] = isQuoted ? value.slice(1, value.length - 1) : value;
+    result.push(attribute);
   }
 
   return result;

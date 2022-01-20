@@ -12,7 +12,7 @@ const testCaption = 'testCaption';
 const testText = 'Lorem ipsum dolor sit amet';
 const testHtml = `
   <article title="Article" id="first" class="container" data-article="1">
-    <style>
+    <style data-theme>
       .image { background: orange; }
     </style>
     <figure class="image" title="Image">
@@ -22,7 +22,9 @@ const testHtml = `
     <p id="text" class="text grey">
       <span>Intro:</span> ${testText}
       <br />
-      <a href="/">Go <em>back</em></a>
+      <a href="/" target="_blank" rel="noopener">
+        Go <em class="accent">back</em>
+      </a>
     </p>
     <button class="button">
       <span>Click</span> me
