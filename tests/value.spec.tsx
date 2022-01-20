@@ -73,6 +73,14 @@ describe('html()', () => {
       expect(instance.find('h2').text()).toEqual(testTitle);
     });
 
+    it('elegantly handles non-closed tags', () => {
+      const result = html(`<main><div><p><p>${testText}`) as JSX.Element;
+      const instance = mount(result);
+
+      expect(instance.find('div').length).toEqual(1);
+      expect(instance.find('p').length).toEqual(2);
+    });
+
     it('can accept a non-html string value', () => {
       const result = html(testText) as JSX.Element;
       const instance = mount(result);

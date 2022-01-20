@@ -4,7 +4,6 @@ import {
   selfClosingTags,
   closedByOpening,
   closedByClosing,
-  frameflag,
   createElement,
   createText,
   createRange,
@@ -37,13 +36,11 @@ function parseHtml(html: string) {
     const tagEnd = htmlRegex.lastIndex;
     const isSelfClosing = selfClosingTags.includes(tagName);
 
-    if (lastTextPos > -1) {
-      if (lastTextPos + matchLength < tagEnd) {
-        const textValue = html.substring(lastTextPos, tagStart).replace(/^\s+|\s+$/g, '');
+    if (lastTextPos > -1 && lastTextPos + matchLength < tagEnd) {
+      const textValue = html.substring(lastTextPos, tagStart).replace(/^\s+|\s+$/g, '');
 
-        if (textValue) {
-          currentParent.childNodes.push(createText(textValue, createRange(tagStart, tagEnd)));
-        }
+      if (textValue) {
+        currentParent.childNodes.push(createText(textValue, createRange(tagStart, tagEnd)));
       }
     }
 
@@ -121,20 +118,20 @@ function parseHtml(html: string) {
           currentParent = nodeStack[nodeStack.length - 1];
 
           break;
-        } else {
-          const parentTagName = currentParent.tagName;
-
-          if (closedByClosing[parentTagName]) {
-            if (closedByClosing[parentTagName][tagName]) {
-              nodeStack.pop();
-              currentParent = nodeStack[nodeStack.length - 1];
-
-              continue;
-            }
-          }
-
-          break;
         }
+
+        const parentTagName = currentParent.tagName;
+
+        if (closedByClosing[parentTagName]) {
+          if (closedByClosing[parentTagName][tagName]) {
+            nodeStack.pop();
+            currentParent = nodeStack[nodeStack.length - 1];
+
+            continue;
+          }
+        }
+
+        break;
       }
     }
   }

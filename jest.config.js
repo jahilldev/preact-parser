@@ -18,7 +18,7 @@ module.exports = {
       statements: 90,
       branches: 75,
       functions: 100,
-      lines: 90,
+      lines: 89,
     },
   },
   moduleNameMapper: {
