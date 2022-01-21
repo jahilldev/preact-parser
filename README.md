@@ -48,7 +48,7 @@ function BlogContent() {
 
 When rendered, the above will output:
 
-```html
+```jsx
 <p>Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
 <p>There are many variations of passages of Lorem Ipsum available</p>
 ```
