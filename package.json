@@ -1,6 +1,6 @@
 {
   "name": "preact-parser",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": "git@github.com:jhukdev/preact-parser.git",
   "author": "James Hill <contact@jameshill.dev>",
   "license": "MIT",
@@ -15,7 +15,8 @@
     "render",
     "html",
     "string",
-    "jsx"
+    "jsx",
+    "isomorphic"
   ],
   "files": [
     "dist"
