@@ -20,10 +20,10 @@ import {
 function parseHtml(html: string) {
   let currentParent = createElement({ tagName: 'body', tagRange: [0, html.length] });
   const nodeStack = [currentParent];
-  let lastTextPos = -1;
+  let lastText = -1;
   let match: RegExpExecArray;
   let noNestedTagIndex: undefined | number = undefined;
-  const dataEndPos = html.length;
+  const dataEnd = html.length;
 
   while ((match = htmlRegex.exec(html))) {
     const { 0: matchText, 3: attributes, 4: closingSlash } = match;
@@ -36,15 +36,15 @@ function parseHtml(html: string) {
     const tagEnd = htmlRegex.lastIndex;
     const isSelfClosing = selfClosingTags.includes(tagName);
 
-    if (lastTextPos > -1 && lastTextPos + matchLength < tagEnd) {
-      const textValue = html.substring(lastTextPos, tagStart).replace(/^\s+|\s+$/g, '');
+    if (lastText > -1 && lastText + matchLength < tagEnd) {
+      const textValue = html.substring(lastText, tagStart).replace(/^\s+|\s+$/g, '');
 
       if (textValue) {
         currentParent.childNodes.push(createText(textValue, createRange(tagStart, tagEnd)));
       }
     }
 
-    lastTextPos = htmlRegex.lastIndex;
+    lastText = htmlRegex.lastIndex;
 
     if (!leadingSlash) {
       const tagAttributes = parseAttributes(attributes);
@@ -86,7 +86,7 @@ function parseHtml(html: string) {
         const closeIndex = tagName
           ? html.toLocaleLowerCase().indexOf(closeMarkup, htmlRegex.lastIndex)
           : html.indexOf(closeMarkup, htmlRegex.lastIndex);
-        const textEnd = closeIndex === -1 ? dataEndPos : closeIndex;
+        const textEnd = closeIndex === -1 ? dataEnd : closeIndex;
 
         if (isIgnored(tagName)) {
           const text = html.substring(tagEnd, textEnd).replace(/^\s+|\s+$/g, '');
@@ -97,9 +97,9 @@ function parseHtml(html: string) {
         }
 
         if (closeIndex === -1) {
-          lastTextPos = htmlRegex.lastIndex = html.length + 1;
+          lastText = htmlRegex.lastIndex = html.length + 1;
         } else {
-          lastTextPos = htmlRegex.lastIndex = closeIndex + closeMarkup.length;
+          lastText = htmlRegex.lastIndex = closeIndex + closeMarkup.length;
           leadingSlash = '/';
         }
       }
@@ -112,7 +112,7 @@ function parseHtml(html: string) {
         }
 
         if (currentParent.tagName === tagName) {
-          currentParent.tagRange[1] = createRange(-1, Math.max(lastTextPos, tagEnd))[1];
+          currentParent.tagRange[1] = createRange(-1, Math.max(lastText, tagEnd))[1];
 
           nodeStack.pop();
           currentParent = nodeStack[nodeStack.length - 1];
