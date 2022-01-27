@@ -1,6 +1,16 @@
 import { h, Fragment } from 'preact';
 import { IElement } from './model';
-import { parseHtml } from './parse';
+import { parseHtml, parseString } from './parse';
+
+/* -----------------------------------
+ *
+ * Component
+ *
+ * -------------------------------- */
+
+function Parser({ children = [] }) {
+  return h(Fragment, {}, children);
+}
 
 /* -----------------------------------
  *
@@ -41,7 +51,7 @@ function html(htmlValue: string) {
 
 function convertToVDom(node: IElement | Element): preact.VNode<any> | string {
   if (node.nodeType === 3) {
-    return node.textContent?.trim() || null;
+    return parseString(node.textContent);
   }
 
   if (node.nodeType !== 1) {
@@ -59,7 +69,7 @@ function convertToVDom(node: IElement | Element): preact.VNode<any> | string {
   }
 
   if (nodeName === 'body') {
-    return h(Fragment, {}, children());
+    return h(Parser, {}, children());
   }
 
   return h(nodeName, props, children());
