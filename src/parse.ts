@@ -37,7 +37,7 @@ function parseHtml(html: string) {
     const isSelfClosing = selfClosingTags.includes(tagName);
 
     if (lastText > -1 && lastText + matchLength < tagEnd) {
-      const textValue = html.substring(lastText, tagStart).replace(/^\s+|\s+$/g, '');
+      const textValue = parseString(html.substring(lastText, tagStart));
 
       if (textValue) {
         currentParent.childNodes.push(createText(textValue, createRange(tagStart, tagEnd)));
@@ -148,7 +148,7 @@ function parseHtml(html: string) {
 function parseAttributes(attributes: string) {
   const result = [];
 
-  for (let match; (match = attrRegex.exec(attributes)); ) {
+  for (let match; (match = attrRegex.exec(attributes));) {
     const { 1: key, 3: value } = match;
     const isQuoted = value[0] === `'` || value[0] === `"`;
 
@@ -165,8 +165,20 @@ function parseAttributes(attributes: string) {
 
 /* -----------------------------------
  *
+ * parseString
+ *
+ * -------------------------------- */
+
+function parseString(value: string) {
+  const result = value?.replace(/\r?\n|\r/g, '').replace(/\s{2,}/g, ' ');
+
+  return result || null;
+}
+
+/* -----------------------------------
+ *
  * Export
  *
  * -------------------------------- */
 
-export { parseHtml };
+export { parseHtml, parseString };

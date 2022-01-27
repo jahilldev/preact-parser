@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { html } from '../src/index';
 
 /* -----------------------------------
@@ -10,8 +10,11 @@ import { html } from '../src/index';
 
 const testCaption = 'testCaption';
 const testTitle = 'testTitle';
+const testWord = 'testWord';
 const testText = 'Lorem ipsum dolor sit amet';
 const testImage = 'https://via.placeholder.com/150';
+
+const testSentence = `<p><strong>${testWord}</strong> <em>${testWord}</em> ${testWord}?</p>`;
 
 const testHtml = `
   <article title="Article" id="first" class="container" data-article="1">
@@ -87,6 +90,13 @@ describe('html()', () => {
 
       expect(instance.text()).toEqual(testText);
     });
+
+    it('preserves word spacing if present', () => {
+      const result = html(testSentence) as JSX.Element;
+      const instance = mount(result);
+
+      expect(instance.text()).toEqual(`${testWord} ${testWord} ${testWord}?`);
+    });
   });
 
   describe('when run on the server', () => {
@@ -114,6 +124,13 @@ describe('html()', () => {
 
       expect(instance.find('article').exists()).toEqual(true);
       expect(instance.find('h2').text()).toEqual(testTitle);
+    });
+
+    it('preserves word spacing if present', () => {
+      const result = html(testSentence) as JSX.Element;
+      const instance = mount(result);
+
+      expect(instance.text()).toEqual(`${testWord} ${testWord} ${testWord}?`);
     });
   });
 });
