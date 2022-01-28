@@ -14,11 +14,11 @@ function Parser({ children = [] }) {
 
 /* -----------------------------------
  *
- * Html
+ * Parse
  *
  * -------------------------------- */
 
-function html(htmlValue: string) {
+function parse(htmlValue: string) {
   const preRender = typeof window === 'undefined';
   const docValue = `<!DOCTYPE html>\n<html><body>${htmlValue}</body></html>`;
 
@@ -103,4 +103,4 @@ function getAttributeObject(attributes: NamedNodeMap): object {
  *
  * -------------------------------- */
 
-export { html };
+export { parse };

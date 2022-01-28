@@ -1,6 +1,6 @@
 import { h } from 'preact';
-import { mount, shallow } from 'enzyme';
-import { html } from '../src/index';
+import { mount } from 'enzyme';
+import { parse } from '../src/index';
 
 /* -----------------------------------
  *
@@ -49,7 +49,7 @@ const testHtml = `
  * -------------------------------- */
 
 function Content() {
-  return <main>{html(testHtml)}</main>;
+  return <main>{parse(testHtml)}</main>;
 }
 
 /* -----------------------------------
@@ -58,10 +58,10 @@ function Content() {
  *
  * -------------------------------- */
 
-describe('html()', () => {
+describe('parse()', () => {
   describe('when run in the browser', () => {
     it('returns a valid VDom tree from an HTML string', () => {
-      const result = html(testHtml) as JSX.Element;
+      const result = parse(testHtml) as JSX.Element;
       const instance = mount(result);
 
       expect(instance.find('article').exists()).toEqual(true);
@@ -77,7 +77,7 @@ describe('html()', () => {
     });
 
     it('elegantly handles non-closed tags', () => {
-      const result = html(`<main><div><p><p>${testText}`) as JSX.Element;
+      const result = parse(`<main><div><p><p>${testText}`) as JSX.Element;
       const instance = mount(result);
 
       expect(instance.find('div').length).toEqual(1);
@@ -85,14 +85,14 @@ describe('html()', () => {
     });
 
     it('can accept a non-html string value', () => {
-      const result = html(testText) as JSX.Element;
+      const result = parse(testText) as JSX.Element;
       const instance = mount(result);
 
       expect(instance.text()).toEqual(testText);
     });
 
     it('preserves word spacing if present', () => {
-      const result = html(testSentence) as JSX.Element;
+      const result = parse(testSentence) as JSX.Element;
       const instance = mount(result);
 
       expect(instance.text()).toEqual(`${testWord} ${testWord} ${testWord}?`);
@@ -111,7 +111,7 @@ describe('html()', () => {
     });
 
     it('returns a valid VDom tree from an HTML string', () => {
-      const result = html(testHtml) as JSX.Element;
+      const result = parse(testHtml) as JSX.Element;
       const instance = mount(result as any);
 
       expect(instance.find('article').exists()).toEqual(true);
@@ -127,7 +127,7 @@ describe('html()', () => {
     });
 
     it('preserves word spacing if present', () => {
-      const result = html(testSentence) as JSX.Element;
+      const result = parse(testSentence) as JSX.Element;
       const instance = mount(result);
 
       expect(instance.text()).toEqual(`${testWord} ${testWord} ${testWord}?`);

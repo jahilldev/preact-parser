@@ -20,14 +20,14 @@ Install with NPM:
 $ npm i preact-parser
 ```
 
-# Using html()
+# Using parse()
 
-`preact-parser` exports a single function, `html()`, that accepts a string of HTML or text, and can be used directly within your component trees. As mentioned above, in the browser it makes use of the native DOM parser, and on the server uses a tiny, efficient string parser.
+`preact-parser` exports a single function, `parse()`, that accepts a string of HTML or text, and can be used directly within your component trees. As mentioned above, in the browser it makes use of the native DOM parser, and on the server uses a tiny, efficient string parser.
 
 For example:
 
 ```jsx
-import { html } from 'preact-parser';
+import { parse } from 'preact-parser';
 
 /*[...]*/
 
@@ -42,7 +42,7 @@ const htmlApiResponse = `
 /*[...]*/
 
 function BlogContent() {
-  return <article class="content">{html(htmlApiResponse)}</article>;
+  return <article class="content">{parse(htmlApiResponse)}</article>;
 }
 ```
 
