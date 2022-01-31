@@ -1,5 +1,5 @@
 import { h, Fragment } from 'preact';
-import { IElement } from './model';
+import { IElement, NodeType } from './model';
 import { parseHtml, parseString } from './parse';
 
 /* -----------------------------------
@@ -50,11 +50,11 @@ function parse(htmlValue: string) {
  * -------------------------------- */
 
 function convertToVDom(node: IElement | Element): preact.VNode<any> | string {
-  if (node.nodeType === 3) {
+  if (node.nodeType === NodeType.Text) {
     return parseString(node.textContent);
   }
 
-  if (node.nodeType !== 1) {
+  if (node.nodeType !== NodeType.Element) {
     return null;
   }
 

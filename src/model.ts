@@ -21,8 +21,8 @@ interface IElement {
  * -------------------------------- */
 
 enum NodeType {
-  ELEMENT = 1,
-  TEXT = 3,
+  Element = 1,
+  Text = 3,
 }
 
 /* -----------------------------------
@@ -113,7 +113,7 @@ function createElement(element: IElement): IElement {
 
   let model = {
     nodeName: 'BODY',
-    nodeType: 1,
+    nodeType: NodeType.Element,
     tagName: 'body',
     tagRange: [],
     attributes: [],
@@ -139,7 +139,7 @@ function createElement(element: IElement): IElement {
 
 function createText(value: string, tagRange: number[]) {
   return createElement({
-    nodeType: NodeType.TEXT,
+    nodeType: NodeType.Text,
     textContent: value,
     nodeName: '#text',
     tagName: void 0,
