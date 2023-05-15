@@ -18,6 +18,9 @@
     "jsx",
     "isomorphic"
   ],
+  "engines": {
+    "node": "^16"
+  },
   "files": [
     "dist"
   ],
