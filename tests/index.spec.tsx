@@ -14,7 +14,7 @@ const testWord = 'testWord';
 const testText = 'Lorem ipsum dolor sit amet';
 const testImage = 'https://via.placeholder.com/150';
 
-const testSentence = `<p><strong>${testWord}</strong> <em>${testWord}</em> ${testWord}?</p>`;
+const testSentence = `<p><strong>${testWord}</strong> <em>${testWord}</em> &nbsp; ${testWord}?</p>`;
 
 const testHtml = `
   <article title="Article" id="first" class="container" data-article="1">
