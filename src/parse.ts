@@ -173,7 +173,7 @@ function parseString(value = '') {
   const result = value
     .replace(/\r?\n|\r/g, '')
     .replace(/\s{2,}/g, ' ')
-    .replace(/&nbsp;/, ' ');
+    .replace(/&nbsp;/, '\u00A0');
 
   return result || null;
 }
