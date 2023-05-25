@@ -17,6 +17,7 @@ const testImage = 'https://via.placeholder.com/150';
 const testSentence = `<p><strong>${testWord}</strong> <em>${testWord}</em> &nbsp; ${testWord}?</p>`;
 
 const testHtml = `
+  <!-- some comment -->
   <article title="Article" id="first" class="container" data-article="1">
     <style data-theme>
       .image { background: orange; }
@@ -26,6 +27,7 @@ const testHtml = `
       <img src="${testImage}" alt="Placeholder" />
       <figcaption>${testCaption}</figcaption>
     </figure>
+    <!-- some comment -->
     <p id="text" class="text grey">
       <span>Intro:</span> ${testText}
       <br />
