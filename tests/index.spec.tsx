@@ -12,9 +12,10 @@ const testCaption = 'testCaption';
 const testTitle = 'testTitle';
 const testWord = 'testWord';
 const testText = 'Lorem ipsum dolor sit amet';
+const testUrl = 'https://jameshill.dev/?option=123456&section=top';
 const testImage = 'https://via.placeholder.com/150';
-
 const testSentence = `<p><strong>${testWord}</strong> <em>${testWord}</em> &nbsp; ${testWord}?</p>`;
+const testAnchor = `<a href="${testUrl}">${testWord}</a>`;
 
 const testHtml = `
   <!-- some comment -->
@@ -31,7 +32,7 @@ const testHtml = `
     <p id="text" class="text grey">
       <span>Intro:</span> ${testText}
       <br />
-      <a href="/" target="_blank" rel="noopener">
+      <a href="${testUrl}" target="_blank" rel="noopener">
         Go <em class="accent">back</em>
       </a>
     </p>
@@ -126,6 +127,14 @@ describe('parse()', () => {
 
       expect(instance.find('article').exists()).toEqual(true);
       expect(instance.find('h2').text()).toEqual(testTitle);
+    });
+
+    it('parses anchor href attributes correctly', () => {
+      const result = parse(testAnchor) as JSX.Element;
+      const instance = mount(result as any);
+
+      expect(instance.find('a').exists()).toEqual(true);
+      expect(instance.find('a').prop('href')).toEqual(testUrl);
     });
 
     it('preserves word spacing if present', () => {
