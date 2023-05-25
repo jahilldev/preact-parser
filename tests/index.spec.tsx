@@ -28,7 +28,14 @@ const testHtml = `
     </style>
     <h2>${testTitle}</h2>
     <figure class="image" title="${testTitle}">
-      <img src="${testImage}" alt="Placeholder" />
+      <img
+        src="${testImage}"
+        alt="Placeholder"
+        data-srcset="
+          ${testImage}/small.jpg 1x,
+          ${testImage}/big.jpg 2x
+        " 
+      />
       <figcaption>${testCaption}</figcaption>
     </figure>
     <!-- some comment -->
@@ -86,6 +93,15 @@ describe('parse()', () => {
         href: testUrl,
         rel: 'noopener',
         target: '_blank',
+      });
+
+      expect(instance.find('img').props()).toEqual({
+        alt: 'Placeholder',
+        'data-srcset': `
+          ${testImage}/small.jpg 1x,
+          ${testImage}/big.jpg 2x
+        `,
+        src: 'https://via.placeholder.com/150',
       });
     });
 
@@ -150,6 +166,15 @@ describe('parse()', () => {
         href: testUrl,
         rel: 'noopener',
         target: '_blank',
+      });
+
+      expect(instance.find('img').props()).toEqual({
+        alt: 'Placeholder',
+        'data-srcset': `
+          ${testImage}/small.jpg 1x,
+          ${testImage}/big.jpg 2x
+        `,
+        src: 'https://via.placeholder.com/150',
       });
     });
 
