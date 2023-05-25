@@ -9,9 +9,12 @@ import { parse } from '../src/index';
  * -------------------------------- */
 
 const testCaption = 'testCaption';
+const testId = 'testId';
 const testTitle = 'testTitle';
 const testWord = 'testWord';
 const testText = 'Lorem ipsum dolor sit amet';
+const testClass = 'testClass';
+const testCss = '.image { background: orange; }';
 const testUrl = 'https://jameshill.dev/?option=123456&section=top';
 const testImage = 'https://via.placeholder.com/150';
 const testSentence = `<p><strong>${testWord}</strong> <em>${testWord}</em> &nbsp; ${testWord}?</p>`;
@@ -19,17 +22,17 @@ const testAnchor = `<a href="${testUrl}">${testWord}</a>`;
 
 const testHtml = `
   <!-- some comment -->
-  <article title="Article" id="first" class="container" data-article="1">
+  <article title="${testTitle}" id="${testId}" class="${testClass}" data-article="1">
     <style data-theme>
-      .image { background: orange; }
+      ${testCss}
     </style>
     <h2>${testTitle}</h2>
-    <figure class="image" title="Image">
+    <figure class="image" title="${testTitle}">
       <img src="${testImage}" alt="Placeholder" />
       <figcaption>${testCaption}</figcaption>
     </figure>
     <!-- some comment -->
-    <p id="text" class="text grey">
+    <p id="${testId}" class="text grey">
       <span>Intro:</span> ${testText}
       <br />
       <a href="${testUrl}" target="_blank" rel="noopener">
@@ -68,8 +71,22 @@ describe('parse()', () => {
       const instance = mount(result);
 
       expect(instance.find('article').exists()).toEqual(true);
+      expect(instance.find('style').text().trim()).toEqual(testCss);
       expect(instance.find('h2').text()).toEqual(testTitle);
       expect(instance.find('img').prop('src')).toEqual(testImage);
+
+      expect(instance.find('article').props()).toEqual({
+        className: testClass,
+        'data-article': '1',
+        id: testId,
+        title: testTitle,
+      });
+
+      expect(instance.find('a').props()).toEqual({
+        href: testUrl,
+        rel: 'noopener',
+        target: '_blank',
+      });
     });
 
     it('can be used within JSX and Preact components', () => {
@@ -118,8 +135,22 @@ describe('parse()', () => {
       const instance = mount(result as any);
 
       expect(instance.find('article').exists()).toEqual(true);
+      expect(instance.find('style').text().trim()).toEqual(testCss);
       expect(instance.find('h2').text()).toEqual(testTitle);
       expect(instance.find('img').prop('src')).toEqual(testImage);
+
+      expect(instance.find('article').props()).toEqual({
+        className: testClass,
+        'data-article': '1',
+        id: testId,
+        title: testTitle,
+      });
+
+      expect(instance.find('a').props()).toEqual({
+        href: testUrl,
+        rel: 'noopener',
+        target: '_blank',
+      });
     });
 
     it('can be used within JSX and Preact components', () => {
