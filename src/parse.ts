@@ -17,16 +17,16 @@ import {
  *
  * -------------------------------- */
 
-function parseHtml(html: string) {
-  const markup = sanitiseHtml(html);
-  let currentParent = createElement({ tagName: 'body', tagRange: [0, markup.length] });
+function parseHtml(inputHtml: string) {
+  const html = sanitiseHtml(inputHtml);
+  let currentParent = createElement({ tagName: 'body', tagRange: [0, html.length] });
   const nodeStack = [currentParent];
   let lastText = -1;
   let match: RegExpExecArray;
   let noNestedTagIndex: undefined | number = undefined;
-  const dataEnd = markup.length;
+  const dataEnd = html.length;
 
-  while ((match = htmlRegex.exec(markup))) {
+  while ((match = htmlRegex.exec(html))) {
     const { 0: matchText, 3: attributes, 4: closingSlash } = match;
     let { 1: leadingSlash, 2: tagName } = match;
 
@@ -38,7 +38,7 @@ function parseHtml(html: string) {
     const isSelfClosing = selfClosingTags.includes(tagName);
 
     if (lastText > -1 && lastText + matchLength < tagEnd) {
-      const textValue = parseString(markup.substring(lastText, tagStart));
+      const textValue = parseString(html.substring(lastText, tagStart));
 
       if (textValue) {
         currentParent.childNodes.push(createText(textValue, createRange(tagStart, tagEnd)));
@@ -85,12 +85,12 @@ function parseHtml(html: string) {
       if (isBlockText(tagName)) {
         const closeMarkup = `</${tagName}>`;
         const closeIndex = tagName
-          ? markup.toLocaleLowerCase().indexOf(closeMarkup, htmlRegex.lastIndex)
-          : markup.indexOf(closeMarkup, htmlRegex.lastIndex);
+          ? html.toLocaleLowerCase().indexOf(closeMarkup, htmlRegex.lastIndex)
+          : html.indexOf(closeMarkup, htmlRegex.lastIndex);
         const textEnd = closeIndex === -1 ? dataEnd : closeIndex;
 
         if (isIgnored(tagName)) {
-          const text = markup.substring(tagEnd, textEnd).replace(/^\s+|\s+$/g, '');
+          const text = html.substring(tagEnd, textEnd).replace(/^\s+|\s+$/g, '');
 
           if (text.length > 0 && /\S/.test(text)) {
             currentParent.childNodes.push(createText(text, createRange(tagStart, tagEnd)));
@@ -98,7 +98,7 @@ function parseHtml(html: string) {
         }
 
         if (closeIndex === -1) {
-          lastText = htmlRegex.lastIndex = markup.length + 1;
+          lastText = htmlRegex.lastIndex = html.length + 1;
         } else {
           lastText = htmlRegex.lastIndex = closeIndex + closeMarkup.length;
           leadingSlash = '/';
