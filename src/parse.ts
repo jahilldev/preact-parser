@@ -160,12 +160,11 @@ function parseAttributes(attributes: string) {
   const result = [];
 
   for (let match; (match = attrRegex.exec(attributes)); ) {
-    const { 1: key, 3: value } = match;
-    const isQuoted = value[0] === `'` || value[0] === `"`;
+    const { key, value } = match.groups;
 
     const attribute = {
       name: key.toLowerCase(),
-      value: isQuoted ? value.slice(1, value.length - 1) : value,
+      value,
     };
 
     result.push(attribute);
