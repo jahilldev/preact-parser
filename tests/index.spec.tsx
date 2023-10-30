@@ -17,7 +17,7 @@ const testClass = 'testClass';
 const testCss = '.image { background: orange; }';
 const testUrl = 'https://jameshill.dev/?option=123456&section=top';
 const testImage = 'https://via.placeholder.com/150';
-const testSentence = `<p><strong>${testWord}</strong> <em>${testWord}</em> &nbsp; ${testWord}?</p>`;
+const testSentence = `<p><strong>${testWord}</strong> <em>${testWord}</em> &nbsp; ${testWord}\n${testWord}?</p>`;
 const testAnchor = `<a href="${testUrl}">${testWord}</a>`;
 
 const testHtml = `
@@ -131,7 +131,7 @@ describe('parse()', () => {
       const result = parse(testSentence) as JSX.Element;
       const instance = mount(result);
 
-      expect(instance.text()).toEqual(`${testWord} ${testWord} ${testWord}?`);
+      expect(instance.text()).toEqual(`${testWord} ${testWord} ${testWord} ${testWord}?`);
     });
   });
 
@@ -197,7 +197,7 @@ describe('parse()', () => {
       const result = parse(testSentence) as JSX.Element;
       const instance = mount(result);
 
-      expect(instance.text()).toEqual(`${testWord} ${testWord} ${testWord}?`);
+      expect(instance.text()).toEqual(`${testWord} ${testWord} ${testWord} ${testWord}?`);
     });
   });
 });
